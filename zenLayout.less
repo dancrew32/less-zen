@@ -1,0 +1,62 @@
+#main-outer .contain {
+	position: relative;
+	_padding:0 1px; // TODO: investigate weird ie6 contain 1px overflow hide
+}
+#main, .no-sidebars #main {
+	_display:inline;
+	float: @dir; /* LTR */
+	width: @base;
+	.margin(@dir, 0);
+	.margin(@dirOp, e(%("-%d", @base)));
+	padding: 0;
+}
+.sidebar-first #main {
+	width: @base - @sidebar_a_width;
+	.margin(@dir, @sidebar_a_width);
+	.margin(@dirOp, e(%("-%d", @base))); 
+}
+.sidebar-second #main {
+	width: @base - @sidebar_b_width;
+	.margin(@dir, 0);
+	.margin(@dirOp, e(%("-%d", @base - @sidebar_b_width)));
+}
+.two-sidebars #main {
+	width: @base - @sidebar_a_width - @sidebar_b_width;
+	.margin(@dir, @sidebar_a_width);
+	.margin(@dirOp, e(%("-%d", (@base - @sidebar_a_width - @sidebar_b_width) + @sidebar_a_width)));
+}
+
+// Sidebar A
+#sidebar-a {
+	_display:inline;
+	float: @dir; /* LTR */
+	width: @sidebar_a_width;
+	.margin(@dir, 0);
+	.margin(@dirOp, e(%("-%d", @sidebar_a_width)));
+	padding: 0;
+	.inner {
+		margin: 0 @gutter 0 0;
+		//overflow:hidden;
+	}
+}
+.sidebar-second #sidebar-a {display:none;}
+
+// Sidebar B
+#sidebar-b {
+	_display:inline;
+	float: @dir; /* LTR */
+	width: @sidebar_b_width;
+	.margin(@dir, @base - @sidebar_b_width);
+	.margin(@dirOp, e(%("-%d", @sidebar_b_width + (@base - @sidebar_b_width))));
+	padding: 0;
+	.inner {
+		margin:0 0 0 @gutter;
+		//overflow:hidden;
+	}
+}
+.sidebar-first #sidebar-b {display:none;}
+.no-sidebars {
+	#sidebar-a, #sidebar-b {
+		display:none;
+	}
+}

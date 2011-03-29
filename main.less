@@ -1,0 +1,604 @@
+@import 'reset.less';
+@import 'print.less';
+@import 'helpers.less';
+
+// Layout Widths
+@outerBase: auto; // auto for full width designs, fixed for column design
+@base:960px; // Just change me!
+@gutter:20px;
+@sidebar_a_width:250px + @gutter;
+@sidebar_b_width:250px + @gutter;
+@block: @base / 9;
+@lightboxHeight: 400px;
+@lightboxWidth: 500px;
+@mainMinHeight: 200px;
+
+// i18n
+@direction:ltr;
+@dir:left;
+@dirOp:right;
+// i18n margin/padding/left/right
+.margin(left, @dist:@gutter) {
+    margin-left:@dist;
+}
+.margin(right, @dist:@gutter) {
+    margin-right:@dist;
+}
+.padding(left, @dist:@gutter) {
+    padding-left:@dist;
+}
+.padding(right, @dist:@gutter) {
+    padding-right:@dist;
+}
+.lr(left, @dist:0) {
+	left:@dist;
+}
+.lr(right, @dist:0) {
+	right:@dist;
+}
+
+// Colors
+@color_primary: #fff;
+@color_mainbg: #f6f6f6;
+@color_secondary: #ddd;
+@color_border: #aaa;
+@color_link_primary: #607890;
+@color_link_secondary: #fff;
+@color_highlight: #ff9900;
+@color_text: #444;
+
+// Fonts
+@fontLineHeight: 1.813em;
+@fontFamily: arial;
+// The Times New Roman-based serif stack:
+	// font-family: Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif;
+// A modern Georgia-based serif stack:
+	// font-family: Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif," "Bitstream Vera Serif", "Liberation Serif", Georgia, serif;
+// A more traditional Garamond-based serif stack:
+	// font-family: "Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif;
+// The Helvetica/Arial-based sans serif stack:
+	// font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+// The Verdana-based sans serif stack:
+	// font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
+// The Trebuchet-based sans serif stack:
+	// font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
+// The heavier “Impact” sans serif stack:
+	// font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif;
+// The monospace stack:
+	//font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+
+@font-xxl: 1.75em;
+@font-xl: 1.5em;
+@font-l: 1.25em;
+@font-m: 1em;
+@font-s: .936em;
+@font-xs: .875em;
+@font-xxs: .75em;
+body, select, input, textarea {
+color: @color_text;
+font-family: @fontFamily;
+}
+
+
+// Links
+a, a:active, a:visited { color: @color_link_primary; }
+a:hover { color: @color_link_primary + #333; }
+a:link { -webkit-tap-highlight-color: @color_link_primary; }
+
+// Highlight
+::-moz-selection { background: @color_highlight; color:@color_highlight - #999; text-shadow: none; }
+::selection { background:@color_highlight; color:@color_highlight - #999; text-shadow: none; }
+
+
+// Structure
+body, html {
+	background-color:@color_secondary;
+	._center;
+	direction:@direction;
+}
+// Full Width Wrappers
+#page {
+	width: @outerBase;
+}
+#header-outer, #main-outer, #footer-outer {
+	.clearfix;
+}
+	// Divide Page
+	#header-outer {
+		border-bottom:1px solid @color_border;
+		._padTB(@gutter);
+		position:relative;
+	}
+	#footer-outer {
+		border-top:1px solid @color_border;
+		._padTB(@gutter);
+	}
+
+// Container Methods
+.contain { // for Wrappers
+	width:@base;
+	._center;
+	.clearfix;
+}
+
+
+
+// Main Sections (with Zen layout implementation)
+@import 'zenLayout.less';
+#header, #main, #sidebar-a, #sidebar-b, #footer {
+	.clearfix;
+	position:relative;
+	text-align:@dir;
+}
+#main-outer {
+	background-color:@color_mainbg;
+	padding-top:@gutter;
+	padding-bottom:@gutter;
+}
+
+// TODO: instead of applying border to #sidebar-a/b, do a slick fade image just under the minHeight
+#sidebar-a {
+	.inner {
+		//border-right:1px solid #ccc;
+		.padding(@dirOp, @gutter);
+		//._minHeight(@mainMinHeight);
+	}
+}
+#sidebar-b {
+	.inner {
+		//border-left:1px solid #ccc;
+		.padding(@dir, @gutter);
+		//._minHeight(@mainMinHeight);
+	}
+}
+
+// Header 
+#header {
+	._minHeight(75px);
+}
+#logo {
+	float:@dir;
+	a {
+		background-color:#fcfcfc;
+		._border;
+		width:200px;
+		height:75px;	
+		._hideText(@dir);
+		&:hover {
+			background-color:#ccc;
+		}
+		&:active {
+			background-color:#aaa;
+		}
+	}
+	img {
+		display:block;
+	}
+}
+
+// Message (html #page for specificity power)
+html #page {
+	.msg {
+		background-color:#F0EFEF;	
+		border:1px solid #DFDFDE;
+		padding:@gutter / 2;
+		text-shadow:0 1px 0 #fff;
+	}
+	span.msg {
+		clear:both;
+		display:block;
+		margin-top:e(%("-%d", (@gutter / 2) + 1));
+		margin-bottom:@gutter / 2;
+		padding:@gutter / 3;
+		/*width:50%;*/
+		.margin(@dir, @gutter / 2);
+		.margin(@dirOp, @gutter / 2);
+	}
+	#main span.msg {
+		.margin(@dir, @gutter / 2);
+		.margin(@dirOp, @gutter + 2);
+	}
+	.error {
+		background-color:#F5C4C3;
+		border-color:#c00;
+		color:#c00 - #888;
+	}
+	success {
+		// TODO: pick blue
+	}
+	.info {
+		background-color:#CEE6C3;
+		border-color:#359545;
+	}
+	
+	// Form Element Messages
+	input, select, textarea {
+		&.error {
+			background-color:#FBE4E3;	
+		}
+	}
+}
+
+#page-title {
+	font-size:@font-xxl;
+	margin-bottom:@gutter;
+	text-shadow:0 1px 3px rgba(0,0,0,.2);
+}
+
+// Main Article Formatting
+#article {
+	._minHeight(@mainMinHeight);
+	h1 {
+		font-size:@font-xl;
+	}
+	h2 {
+		font-size:@font-l;
+	}
+	h3 {
+		font-size:@font-l - .125em;
+	}
+	h4 {
+		font-size:@font-l - .25em;
+	}
+	
+	h1, h2, h3, h4, h5, h6, p, ul, ol, textarea {
+		margin-bottom:@gutter / 2;
+		line-height:@fontLineHeight;
+	}
+	a {
+		&.image {
+			@imageSize: (@base / 3) + (@gutter * 2);
+			background-color:#fff;
+			._border(#ccc);
+			clear:both;
+			display:block;
+			_display:inline;
+			float:@dirOp;
+			.margin(@dir, @gutter);
+			margin-bottom:@gutter;
+			padding:3px 3px @gutter / 2;
+			text-decoration:none;
+			._boxshadow(0, 1px, 3px, rgba(0,0,0,0.15));
+			//._rotate(10);
+			//margin-right:-18px;
+			-webkit-transition: all .2s linear;
+//			._round(2px);
+			&:hover {
+			}
+			img {
+				width:@imageSize;
+				border:1px solid #ccc;
+			}
+			span {
+				display:block;
+				margin-top:@gutter / 3;
+				color:@color_text + #333;
+				text-align:center;
+				width:@imageSize;
+			}
+		}
+	}
+	img {
+		display:block;
+		&.captcha {
+			float:none;
+			._center;
+		}
+	}
+	
+}
+
+// Comments Section
+#comments {
+	@userImg: 50px;
+	
+	.comment {
+		position:relative;
+		padding:@gutter;
+		._minHeight(@userImg);
+		.img {
+			background-color:#f00;
+			display:block;
+			width:@userImg;
+			height:@userImg;
+			position:absolute;
+			top:@gutter;
+			.lr(@dir, @gutter);
+		}
+		.response {
+			.padding(@dir, @userImg + @gutter);
+		}
+	}
+}
+
+// Navigations
+#user-info {
+	float:@dirOp;
+}
+#top-nav {
+	bottom:e(%("-%d", @gutter + 1));
+	clear:@dirOp;
+	.lr(@dirOp, 0);
+	position:absolute;
+	.active a {
+		background-color:@color_mainbg;
+		border-bottom-color:@color_mainbg;
+	}
+	a {
+		background-color:#eee;
+		display: block;
+		text-decoration:none;
+		border:1px solid @color_border;
+		padding:(@gutter / 2) (@gutter);
+		._round(2px 2px 0 0);
+	}
+}
+#top-nav, #bottom-nav, #layout-switcher {
+	._horizontal;
+	.clearfix;
+	li {
+		.margin(@dir, 0);
+		.margin(@dirOp, @gutter / 2);	
+	}
+}
+#layout-switcher {
+	margin-top:@gutter;	
+}
+#top-nav {
+	float:@dirOp;
+	li {
+		.margin(@dir, @gutter / 2);
+		.margin(@dirOp, 0);
+	}
+}
+
+// Forms
+form {
+	@formPadding: 4px;
+	position:relative;
+	display:block;
+	label {
+		clear:both;
+		display:block;
+		margin-bottom:@gutter / 4;
+	}
+	.text, textarea, .password {
+		._border(#ccc);
+		display:block;
+		margin-bottom:@gutter / 2;
+		padding:@formPadding;
+	}
+	select {
+		._border(#ccc);
+		margin-bottom:@gutter / 2;
+		padding:@formPadding;	
+	}
+	textarea {
+		resize:vertical;
+	}
+	.file {
+		margin-bottom:@gutter / 2;
+	}
+	.mysubmit {
+		.button;
+	}
+	// Used for fake ajax upload
+	.hidden {
+		width:0;
+		height:0;
+		border-width:0;
+	}
+	.frame iframe { 
+		._border(#ccc);
+		width:100%;
+	}
+	.remove {
+		margin-bottom:@gutter / 2;
+	}
+}
+// STE controls
+.ste {
+
+}
+#ste-controls {
+	display: block;
+	margin-bottom:@gutter / 2;
+	.cmd {
+		border:1px solid #ccc;
+		font-size:10px;
+		text-align:center;
+		vertical-align:middle;
+	}
+}
+.spinner {
+	background:url(/gui/i/loady.gif) no-repeat 0 0;
+	@cube: 16px;
+	display:block;
+//	position:absolute;
+	position:fixed;
+	top:0;
+	.lr(@dirOp, 0);
+	width:@cube;
+	height:@cube;
+	._hideText(@dir);
+	z-index:9999;
+
+}
+// Input Width Tuning (will need adjustment based on browser/ @base width)
+.no-sidebars {
+	.text, textarea, .password {
+		width:98.7%;
+	}
+}
+.sidebar-first, .sidebar-second {
+	.text, textarea, .password {
+		width:97%;
+	}
+	#sidebar-a, #sidebar-b {
+		.text, textarea, .password {
+			width:94%;	
+		}
+	}
+}
+.two-sidebars {
+	.text, textarea, .password {
+		width:97%;
+	}
+	#sidebar-a, #sidebar-b {
+		.text, textarea, .password {
+			width:94%;	
+		}
+	}
+}
+
+// Blog
+#article .last {
+	border-bottom-width:0;
+	margin-bottom:0;
+	.links {
+		margin-bottom:0;
+	}
+}
+.post {
+	clear:both;
+	border-bottom:1px solid @color_border + #444;
+	margin-bottom:@gutter;
+	h2 {
+		display:block;
+		float:@dir;
+		width:75%;
+	}
+	.author {
+		color:#999;
+		float:@dirOp;
+		font-size:@font-xs;
+		margin-top:((@gutter / 2) - 1);
+		text-align:@dirOp;
+		width:24%;
+	}
+	.date {
+		color:#777;	
+		display:inline;
+	}
+	.body {
+		clear:both;	
+	}
+	.links {
+		._horizontal;
+		float:@dirOp;
+		.margin(@dir, 0);
+		margin-bottom:@gutter;
+		clear:both;
+		.clearfix;
+		li {
+			.margin(@dir, @gutter / 2);
+		}
+		a {
+			.button;
+			color:@color_text;
+		}
+	}
+	.clearfix;
+}
+// Pagination
+.pager {
+	clear:both;
+	float:@dirOp; // consider making this region specific	
+	margin-top:@gutter;
+	/*width:300px;*/
+	a, strong {
+		border:1px solid #ccc;
+		display:block;
+		float:@dir;
+		padding:3px @gutter / 3;
+		text-decoration:none;
+	}
+	.pager-prev {
+		float:@dir;
+	}
+	.pager-next {
+		float:@dirOp;
+		.margin(@dir, 1px);
+	}
+	.pager-first {
+		float:@dir;
+	}
+	.pager-last {
+		float:@dirOp;
+	}
+}
+
+#user-nav {
+	h3 {
+		margin-bottom:@gutter;
+	}
+	ul {
+		margin:0;
+	}
+	li {
+		list-style:none;
+		margin:0 0 (@gutter / 4);
+		a {
+			.button;
+			padding:4px (@gutter / 2);
+		}
+	}
+}
+
+// Lightbox
+#screen-overlayer {
+	._overlayer;
+}
+#lightbox {
+	background-color:#fff;
+	border:5px solid #eee;
+	._lightbox;
+	#lightbox-inner {
+		text-align:@dir;
+	}
+	.header {
+		background-color:#FFFFFF;
+        border-bottom:5px solid #fff;
+        color:#fff;
+        padding:@gutter @gutter / 2;
+        background-color:#111;
+        overflow:hidden;
+        h2 {
+        	font-size:@font-xl;
+        }
+	}
+	.content {
+		padding:@gutter;
+		height:@lightboxHeight - (@gutter * 4);
+		overflow:auto;
+		img {
+			display:block;
+			._border;
+			padding:3px;
+			._center;
+			//height:97%;
+			width:100%;
+		}
+	}
+	a {
+		@box: 45px;
+		background-color:#ddd;
+		border:1px solid #ccc;
+		cursor:pointer;
+		height:px;
+		width:@box;
+		line-height:@box;  
+		top:e(%("-%d", @box / 2));
+		.lr(@dirOp, e(%("-%d", @box / 2)));
+		position:absolute;
+		._round(@gutter);
+		&:hover {
+			background-color:#eee;
+		}
+		&:active {
+			background-color:#ccc;
+		}
+	}
+}
+
+

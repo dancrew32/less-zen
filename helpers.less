@@ -1,0 +1,202 @@
+._border(@color:#ccc) {
+	border-style:solid;
+	border-width:1px;
+	border-color:@color;	
+}
+._bg(@filename) {
+    background-image: e(%('url(/images/%s)', @filename));
+}
+._opacity(@value) {
+    -khtml-opacity:@value / 100;
+    -moz-opacity:@value / 100;
+    -ms-filter:%('alpha(opacity=%s)', @value);
+    filter:e(%("alpha(opacity=%s)", @value));
+    opacity:@value / 100;
+}
+._round(@radius: 10px) {
+	-khtml-border-radius:@radius;
+	-moz-border-radius:@radius;
+	-webkit-border-radius:@radius;
+	border-radius:@radius;
+}
+._center {
+	margin:0 auto;
+	text-align:center;
+}
+// TODO: add inset
+._boxshadow(@offsetTop: 1px, @offsetLeft: 0, @blur: 2px, @color: rgba(0,0,0,0.15)) {
+	box-shadow:@offsetTop @offsetLeft @blur @color;
+	-moz-box-shadow:@offsetTop @offsetLeft @blur @color;
+	-webkit-box-shadow:@offsetTop @offsetLeft @blur @color;
+}
+.clearfix {
+	&:after {
+		visibility:hidden;
+		display:block;
+		font-size:0;
+		content:" ";
+		clear:both;
+		height:0;
+	}
+	zoom:1;
+}
+._gradient (@from: #FFFFFF, @to: #EDEDED) {
+    background: -webkit-gradient(linear, left top, left bottom, from(@from), to(@to));
+    background: -moz-linear-gradient(top,  @from,  @to);
+    filter: e(%("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=%d,endColorstr=%d)", @from, @to));
+    -ms-filter: %("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=%d, endColorstr=%d)", @from, @to);
+}
+
+._minHeight(@height) {
+	min-height:@height;
+	height:auto !important;
+	height:@height;
+}
+._rotate(@deg: 35){
+	-moz-transform: e(%("rotate(%ddeg)", @deg));
+	-webkit-transform: e(%("rotate(%ddeg)", @deg));
+	-o-transform: e(%("rotate(%ddeg)", @deg));
+	transform: e(%("rotate(%ddeg)", @deg));
+}
+._scale(@mult: 2) {
+	-moz-transform:scale(@mult);
+	-webkit-transform:scale(@mult);
+	-o-transform:scale(@mult);
+	transform:scale(@mult);
+}
+._transition(@prop: all, @time: .2s, @curve: linear) {
+	-webkit-transition: @prop @time @curve;
+	-moz-transition: @prop @time @curve;
+	-o-transition: @prop @time @curve;
+	transition: @prop @time @curve;
+}
+._transitionOrigin(@x, @y) {
+	-webkit-transform-origin-x:@x;
+	-webkit-transform-origin-y:@y;
+	-moz-transform-origin:@x @y; 
+	-o-transform-origin:@x @y; 
+	transform-origin:@x @y; 
+}
+._wordWrap {
+	white-space:pre; 
+	white-space:pre-wrap;
+	white-space:pre-line;
+	word-wrap:break-word;
+}
+._textShadow(@color:#fff) {
+    text-shadow:0 1px 0 @color;
+}
+._hideText() {
+	display:block;
+	text-decoration:none;
+}
+._hideText(left) {
+	text-align:left;
+	text-indent:-999em;
+}
+._hideText(right) {
+	text-align:right;
+	text-indent:999em;
+}
+._padTB(@dist) {
+	padding-top:@dist;
+	padding-bottom:@dist;
+}
+._padLR(@dist) {
+	padding-left:@dist;
+	padding-right:@dist;
+}
+._horizontal {
+	ul {
+		display:block;
+		margin-left:0;
+	}
+	li {
+		display:inline;
+		float:left;
+	}
+	a {
+		display:block;
+		float:left;
+	}
+}
+.ie6_pngfix(@png) {
+	background:transparent;
+	filter: e(%("progid:DXImageTransform.Microsoft.AlphaImageLoader(src='%d', sizingMethod='scale')", @png));
+}
+// Button (don't add too much here, override in main)
+.button {
+	display:block;
+	._border(#ccc #bbb #aaa #bbb);
+	._gradient(#eee, #bbb);
+	text-shadow:0 1px 0 #fff;
+	text-decoration:none;
+	padding:2px @gutter / 2;
+	&:hover {
+		._gradient(#fff, #ccc);
+	}
+	&:active {
+		._gradient(#bbb, #dfdfdf);
+	}
+}
+._overlayer (@z: 9998) {
+	background-color:rgba(85, 85, 85, .7);
+	display:block;
+    overflow:hidden;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:@z; /* Make sure #lightbox wins at z-index:9999; */
+    @from: #555555;
+    @to: #555555;
+    filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorStr='%d70',EndColorStr='%d70')", @from, @to));
+}
+._lightbox (@z: 9999) {
+	left:50%;
+	height:@lightboxHeight; /* TODO: Make resizable based on viewport floor */
+	position:fixed;
+	_position:absolute;
+	text-align:center;
+	top:0;
+	width:@lightboxWidth;
+	margin-top:@gutter * 2;
+	margin-left: e(%("-%d", @lightboxWidth / 2)); /* negative half width */
+	z-index:@z;
+	._boxshadow(3px, 0, @gutter, rgba(0,0,0,0.7));
+}
+.curl(@width, @height) {
+	// TODO: skew/rotate in positive negative
+	// TODO:  boxshadow control
+	// TODO: z index control (add zinded param, then subtract 1 and 2 from the following
+	&:after {
+		z-index:-1;
+		position:absolute;
+		background:transparent;
+		width:70%;
+		height:55%;
+		content:'';
+		right:10px;
+		bottom:10px;
+		transform:skew(15deg) rotate(6deg);
+		-webkit-transform:skew(15deg) rotate(6deg);
+		-moz-transform:skew(15deg) rotate(6deg);
+		._boxshadow(0, 8px, 16px, rgba(0,0,0.15);
+	}
+
+	&:before {
+		z-index:-2;
+		position:absolute;
+		background:transparent;
+		width:70%;
+		height:55%;
+		content:'';
+		left:10px;
+		bottom:10px;
+		transform:skew(-15deg) rotate(-6deg);
+		-webkit-transform:skew(-15deg) rotate(-6deg);
+		-moz-transform:skew(-15deg) rotate(-6deg);
+		._boxshadow(0, 8px, 16px, rgba(0,0,0.15);
+	}
+
+}
+
