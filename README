@@ -1,3 +1,5 @@
 Zen Layout implemented in Less (lessjs, specifically).
 
-You only really need to check out index.html and zenLayout.less, everything else is just a lot of less experimentation. Enjoy!
+You only really need to check out index.html and zenLayout.less, everything else is just a lot of less experimentation.
+
+At the top of main.less, you'll see all of the configuration variables that make customizing a layout super easy! You can even LTR/RTL a site design in two seconds by swapping "left" and "right" variables! Enjoy!
